@@ -11,8 +11,13 @@ struct ArticleList: View {
     @ObservedObject var microCMS = MicroCMSRequester()
     
     var body: some View {
-        List(microCMS.articles) {
-            ArticleListRow(article: $0)
+        
+        NavigationView {
+            List(microCMS.articles) { article in
+                NavigationLink(destination: ArticleDetail(contentId: article.id)) {
+                    ArticleListRow(article: article)
+                }
+            }
         }.onAppear {
             microCMS.load()
         }
